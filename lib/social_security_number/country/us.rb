@@ -28,7 +28,11 @@ module SocialSecurityNumber
       matches = @civil_number.match(self.class::SSN_REGEXP) || (return nil)
 
       if matches[:area] == '000' || matches[:area] == '666' || matches[:group] == '00' ||
-         matches[:invidual] == '0000' || matches[:area][0] == '9'
+         matches[:invidual] == '0000' || matches[:area][0] == '9' ||
+         (matches[:area] == '111' && matches[:group] == '11' && matches[:invidual] == '1111') ||
+         (matches[:area] == '333' && matches[:group] == '33' && matches[:invidual] == '3333') ||
+         (matches[:area] == '666' && matches[:group] == '66' && matches[:invidual] == '6666') ||
+         (matches[:area] == '123' && matches[:group] == '45' && matches[:invidual] == '6789')
         return false
       else
         return true
