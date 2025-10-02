@@ -1,3 +1,3 @@
 module SocialSecurityNumber
-  VERSION = '0.1.13.byga.2'
+  VERSION = '0.1.13.byga.3'
 end

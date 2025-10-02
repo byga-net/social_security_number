@@ -15,7 +15,7 @@ module SocialSecurityNumber
     def type
       return :ssn if check_by_regexp(SSN_REGEXP) && validate_ssn
       return :itin if check_by_regexp(ITIN_REGEXP) && validate_itin
-      return :ein if check_by_regexp(ITIN_REGEXP) && validate_itin
+      return :ein if check_by_regexp(EIN_REGEXP) && validate_itin
     end
 
     private
