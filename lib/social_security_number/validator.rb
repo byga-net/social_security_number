@@ -23,9 +23,7 @@ module SocialSecurityNumber
     end
 
     def valid?
-      civil_number = SocialSecurityNumber
-                     .const_get(@country_code.capitalize)
-                     .new(@civil_number, @validate_social_insurance_number)
+      civil_number = get_civil_number
 
       if civil_number.valid?
         if !@birth_date.nil? && !civil_number.birth_date.nil? && civil_number.birth_date.to_s != @birth_date.to_s
@@ -40,6 +38,18 @@ module SocialSecurityNumber
       end
       @error = civil_number.error
       false
+    end
+
+    def type
+      get_civil_number.try(:type)
+    end
+
+    private
+
+    def get_civil_number
+      SocialSecurityNumber
+          .const_get(@country_code.capitalize)
+          .new(@civil_number, @validate_social_insurance_number)
     end
   end
 end

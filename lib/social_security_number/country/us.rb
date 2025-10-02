@@ -7,9 +7,15 @@ module SocialSecurityNumber
   # https://en.wikipedia.org/wiki/Individual_Taxpayer_Identification_Number
   class Us < Country
     def validate
-      @error = if !validate_formats
+      @error = if type.nil?
                  'bad number format'
                end
+    end
+
+    def type
+      return :ssn if check_by_regexp(SSN_REGEXP) && validate_ssn
+      return :itin if check_by_regexp(ITIN_REGEXP) && validate_itin
+      return :ein if check_by_regexp(ITIN_REGEXP) && validate_itin
     end
 
     private
@@ -17,12 +23,6 @@ module SocialSecurityNumber
     SSN_REGEXP = /^(?<area>\d{3})-(?<group>\d{2})-(?<invidual>\d{4})$/
     ITIN_REGEXP = /^(?<area>\d{3})-(?<group>\d{2})-(?<invidual>\d{4})$/
     EIN_REGEXP = /^(?<area>\d{2})-(?<group>\d{7})$/
-
-    def validate_formats
-      return (check_by_regexp(SSN_REGEXP) && validate_ssn) ||
-      (check_by_regexp(ITIN_REGEXP) && validate_itin) ||
-      (check_by_regexp(EIN_REGEXP) && validate_ein)
-    end
 
     def validate_ssn
       matches = @civil_number.match(self.class::SSN_REGEXP) || (return nil)
